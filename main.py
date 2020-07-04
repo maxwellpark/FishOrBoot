@@ -1,5 +1,6 @@
 import fisherman
 from pond import renderPondSurface, checkForFish, castLine
+from utils import validateCoordinate, validateDimension 
 from random import randint 
 
 # array of ints to represent fish and boots in each cell of the pond grid
@@ -21,27 +22,29 @@ def gameLoop():
     Player1 = fisherman.Fisherman(input("Player 1, Enter Your Name: "))    
     Player2 = fisherman.Fisherman(input("Player 2, Enter Your Name: "))
 
-    # create the pond environment with custom dimensions and random values
-    rows = int(input("Enter no. of rows: "))
-    cols = int(input("Enter no. of columns: "))
+    # create the pond environment with custom dimensions (user input) and random fish/boot values
+    rows = validateDimension("y")
+    print(rows)
+    cols = validateDimension("x")
+    print(cols)
+
     pondLife = [[randint(0, 1) for j in range(cols)] for i in range(rows)] 
     pondSurface = [[False] * cols for i in range(rows)]
-    print(pondSurface) 
 
     renderPondSurface(rows, cols, pondSurface) 
     
     while not gameOver:
         # player 1's turn  
-        x = int(input(f"{Player1.name}, Enter x coordinate: "))
-        y = int(input(f"{Player1.name}, Enter y coordinate: ")) 
+        x = validateCoordinate(Player1, "x", cols - 1)
+        y = validateCoordinate(Player1, "y", rows - 1)
         castLine(x, y, Player1, pondLife, pondSurface)
         renderPondSurface(rows, cols, pondSurface)
         print(f"{Player1.name} has caught {Player1.fishCaught} fish.")                                               
         print(f"{Player1.name} has caught {Player1.bootsCaught} boot(s).")
         
         # player 2's turn
-        x = int(input(f"{Player2.name}, Enter x coordinate: "))
-        y = int(input(f"{Player2.name}, Enter y coordinate: "))
+        x = validateCoordinate(Player2, "x", cols - 1)
+        y = validateCoordinate(Player2, "y", rows - 1)
         castLine(x, y, Player2, pondLife, pondSurface)
         renderPondSurface(rows, cols, pondSurface)
         print(f"{Player2.name} has caught {Player2.fishCaught} fish.")                                           

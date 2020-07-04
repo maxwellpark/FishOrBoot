@@ -1,0 +1,1 @@
+MAX_POND_SIZE = 40
