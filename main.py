@@ -15,7 +15,6 @@ rows = 0
 cols = 0 
 
 def gameLoop():
-
     gameOver = False
  
     # initialise player objects
@@ -37,10 +36,12 @@ def gameLoop():
         # player 1's turn  
         x = validateCoordinate(Player1, "x", cols - 1)
         y = validateCoordinate(Player1, "y", rows - 1)
+        
         castLine(x, y, Player1, pondLife, pondSurface)
         renderPondSurface(rows, cols, pondSurface)
         print(f"{Player1.name} has caught {Player1.fishCaught} fish.")                                               
         print(f"{Player1.name} has caught {Player1.bootsCaught} boot(s).")
+        # handleMove(Player1)
         
         # player 2's turn
         x = validateCoordinate(Player2, "x", cols - 1)
@@ -63,4 +64,20 @@ def gameLoop():
             if (restartGame == ""):
                 gameLoop()
 
+# this is primarily here to prevent duplicate moves
+# but it also abstracts away implementation details 
+def handleMove(player):
+    while 1:
+        x = validateCoordinate(player, "x", cols - 1)
+        y = validateCoordinate(player, "y", rows - 1)
+        if pondSurface[x][y]:
+            print("This cell has already been prospected. Try a different cell.")
+        else:
+            break 
+    castLine(x, y, Player1, pondLife, pondSurface)
+    renderPondSurface(rows, cols, pondSurface)
+    print(f"{Player1.name} has caught {Player1.fishCaught} fish.")                                               
+    print(f"{Player1.name} has caught {Player1.bootsCaught} boot(s).")
+
+# entry point  
 gameLoop()

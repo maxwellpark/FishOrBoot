@@ -5,7 +5,7 @@ def renderPondSurface(rows, cols, pondSurface):
     print("____" * cols)     
     for i in range(rows):
         for j in range(cols):
-            # True means it's already been attempted
+            # True signifies that it's already been attempted
             if (pondSurface[i][j] == False):
                 if (j < 1):
                     print("|", end="") 
